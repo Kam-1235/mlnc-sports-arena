@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLNC Sports Arena | Motilal Nehru College</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="logo">MLNC</div>
+      <div>
+        <h1>MLNC SPORTS ARENA</h1>
+        <p>MOTILAL NEHRU COLLEGE • UNIVERSITY OF DELHI</p>
+      </div>
+    </div>
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <nav id="nav">
+      <a href="#home">Home</a>
+      <a href="#sports">Sports</a>
+      <a href="#tournaments">Tournaments</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#register" class="nav-cta">Register</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <span class="tag">🏆 COLLEGE SPORTS PORTAL</span>
+        <h2>Play. Compete.<br><span>Represent MLNC.</span></h2>
+        <p>Welcome to the official sports platform of Motilal Nehru College, University of Delhi. Explore sports, tournaments, fixtures, results and student registrations.</p>
+        <div class="hero-buttons">
+          <a href="#register" class="btn primary">Register for a Sport →</a>
+          <a href="#schedule" class="btn secondary">View Schedule</a>
+        </div>
+        <div class="stats">
+          <div><strong>08+</strong><span>Sports</span></div>
+          <div><strong>12</strong><span>Teams</span></div>
+          <div><strong>24+</strong><span>Matches</span></div>
+          <div><strong>150+</strong><span>Athletes</span></div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="trophy">🏆</div>
+        <p>ANNUAL SPORTS MEET</p>
+        <h3>MLNC SPORTS FEST 2026</h3>
+        <div class="date">SEPTEMBER 2026</div>
+        <a href="#tournaments">Explore Tournament</a>
+      </div>
+    </section>
+
+    <section class="section" id="sports">
+      <div class="section-head">
+        <div><span class="eyebrow">EXPLORE</span><h2>Sports at MLNC</h2></div>
+        <p>Choose your game, build your team and compete for glory.</p>
+      </div>
+      <div class="sports-grid">
+        <article class="sport-card"><div class="sport-icon">🏏</div><h3>Cricket</h3><p>Team sport • 11 players</p><button onclick="selectSport('Cricket')">Join Cricket</button></article>
+        <article class="sport-card"><div class="sport-icon">🏸</div><h3>Badminton</h3><p>Singles & doubles</p><button onclick="selectSport('Badminton')">Join Badminton</button></article>
+        <article class="sport-card"><div class="sport-icon">⚽</div><h3>Football</h3><p>Team sport • 11 players</p><button onclick="selectSport('Football')">Join Football</button></article>
+        <article class="sport-card"><div class="sport-icon">🏀</div><h3>Basketball</h3><p>Team sport • 5 players</p><button onclick="selectSport('Basketball')">Join Basketball</button></article>
+        <article class="sport-card"><div class="sport-icon">🏐</div><h3>Volleyball</h3><p>Team sport • 6 players</p><button onclick="selectSport('Volleyball')">Join Volleyball</button></article>
+        <article class="sport-card"><div class="sport-icon">🏓</div><h3>Table Tennis</h3><p>Singles & doubles</p><button onclick="selectSport('Table Tennis')">Join Table Tennis</button></article>
+        <article class="sport-card"><div class="sport-icon">♟️</div><h3>Chess</h3><p>Individual competition</p><button onclick="selectSport('Chess')">Join Chess</button></article>
+        <article class="sport-card"><div class="sport-icon">🏃</div><h3>Athletics</h3><p>Track & field events</p><button onclick="selectSport('Athletics')">Join Athletics</button></article>
+      </div>
+    </section>
+
+    <section class="section dark" id="tournaments">
+      <div class="section-head">
+        <div><span class="eyebrow">COMPETE</span><h2>Upcoming Tournaments</h2></div>
+        <p>Stay updated with MLNC's inter-college and intra-college competitions.</p>
+      </div>
+      <div class="tournament-grid">
+        <article class="tournament"><span class="status">OPEN</span><h3>MLNC Sports Fest 2026</h3><p>🏆 Multi-sport championship</p><div><b>10 Sep 2026</b><span>College Ground</span></div><a href="#register">Register →</a></article>
+        <article class="tournament"><span class="status">OPEN</span><h3>Badminton Open</h3><p>🏸 Singles & doubles</p><div><b>15 Sep 2026</b><span>Indoor Hall</span></div><a href="#register">Register →</a></article>
+        <article class="tournament"><span class="status closed">UPCOMING</span><h3>Inter-College Cricket</h3><p>🏏 Knockout tournament</p><div><b>22 Sep 2026</b><span>Sports Ground</span></div><a href="#register">Details →</a></article>
+      </div>
+    </section>
+
+    <section class="section" id="schedule">
+      <div class="section-head">
+        <div><span class="eyebrow">FIXTURES</span><h2>Match Schedule</h2></div>
+        <select id="sportFilter">
+          <option value="all">All Sports</option>
+          <option value="Cricket">Cricket</option>
+          <option value="Badminton">Badminton</option>
+          <option value="Football">Football</option>
+          <option value="Basketball">Basketball</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Sport</th><th>Match</th><th>Time</th><th>Venue</th><th>Status</th></tr></thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section light" id="leaderboard">
+      <div class="section-head">
+        <div><span class="eyebrow">RANKINGS</span><h2>Team Leaderboard</h2></div>
+        <p>Current points table for MLNC Sports Fest.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Rank</th><th>Team</th><th>Played</th><th>Won</th><th>Lost</th><th>Points</th></tr></thead>
+          <tbody>
+            <tr><td class="rank">01</td><td><b>Thunder Hawks</b></td><td>5</td><td>4</td><td>1</td><td><strong>12</strong></td></tr>
+            <tr><td class="rank">02</td><td><b>Campus Titans</b></td><td>5</td><td>4</td><td>1</td><td><strong>11</strong></td></tr>
+            <tr><td class="rank">03</td><td><b>Blue Warriors</b></td><td>5</td><td>3</td><td>2</td><td><strong>9</strong></td></tr>
+            <tr><td class="rank">04</td><td><b>Delhi Strikers</b></td><td>5</td><td>2</td><td>3</td><td><strong>7</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="gallery">
+      <div class="section-head"><div><span class="eyebrow">MOMENTS</span><h2>Sports Gallery</h2></div><p>Celebrating teamwork, energy and college spirit.</p></div>
+      <div class="gallery">
+        <div class="gallery-item g1">🏏<span>Cricket</span></div>
+        <div class="gallery-item g2">🏸<span>Badminton</span></div>
+        <div class="gallery-item g3">⚽<span>Football</span></div>
+        <div class="gallery-item g4">🏀<span>Basketball</span></div>
+        <div class="gallery-item g5">🏆<span>Champions</span></div>
+        <div class="gallery-item g6">🏃<span>Athletics</span></div>
+      </div>
+    </section>
+
+    <section class="register-section" id="register">
+      <div class="register-card">
+        <div>
+          <span class="eyebrow">PLAYER REGISTRATION</span>
+          <h2>Ready to represent MLNC?</h2>
+          <p>Fill in your details to register for an upcoming sports activity.</p>
+        </div>
+        <form id="registrationForm">
+          <div class="form-grid">
+            <input id="name" required placeholder="Full Name">
+            <input id="roll" required placeholder="College Roll Number">
+            <input id="email" required type="email" placeholder="College Email">
+            <select id="sport" required>
+              <option value="">Select Sport</option><option>Cricket</option><option>Badminton</option><option>Football</option><option>Basketball</option><option>Volleyball</option><option>Table Tennis</option><option>Chess</option><option>Athletics</option>
+            </select>
+            <input id="phone" required placeholder="Contact Number">
+            <select id="category" required><option value="">Category</option><option>Men</option><option>Women</option><option>Mixed</option></select>
+          </div>
+          <button class="btn primary" type="submit">Submit Registration</button>
+          <p id="formMessage" class="form-message"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-brand"><div class="logo">MLNC</div><div><b>MLNC SPORTS ARENA</b><small>Motilal Nehru College • University of Delhi</small></div></div>
+    <div><p>College Sports Management Portal</p><p>© 2026 MLNC Sports Arena • Academic Project</p></div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
