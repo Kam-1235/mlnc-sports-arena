@@ -14,9 +14,14 @@ const logoutButton = document.getElementById("logoutButton");
 const message = document.getElementById("message");
 const studentsContainer = document.getElementById("studentsContainer");
 
+const searchInput = document.getElementById("searchStudent");
+const sportFilter = document.getElementById("sportFilter");
+
+let allStudents = [];
+
 
 // ==========================================
-// CHECK IF ADMIN IS ALREADY LOGGED IN
+// CHECK EXISTING LOGIN
 // ==========================================
 
 const savedToken = sessionStorage.getItem("adminToken");
@@ -75,7 +80,7 @@ loginForm.addEventListener("submit", async function (event) {
         }
 
 
-        // Save JWT token
+        // Save login token
         sessionStorage.setItem(
             "adminToken",
             data.access_token
@@ -119,7 +124,10 @@ function showDashboard() {
 // LOAD STUDENTS
 // ==========================================
 
-loadButton.addEventListener("click", loadStudents);
+loadButton.addEventListener(
+    "click",
+    loadStudents
+);
 
 
 async function loadStudents() {
@@ -135,7 +143,8 @@ async function loadStudents() {
     }
 
 
-    message.textContent = "Loading registrations...";
+    message.textContent =
+        "Loading registrations...";
 
     message.style.color = "";
 
@@ -180,6 +189,55 @@ async function loadStudents() {
         const students = await response.json();
 
 
+        // Save all students
+        allStudents = students;
+
+
+        // ==========================================
+        // UPDATE STATISTICS
+        // ==========================================
+
+        document.getElementById(
+            "totalStudents"
+        ).textContent = students.length;
+
+
+        document.getElementById(
+            "cricketCount"
+        ).textContent =
+            students.filter(
+                student => student.sport === "Cricket"
+            ).length;
+
+
+        document.getElementById(
+            "footballCount"
+        ).textContent =
+            students.filter(
+                student => student.sport === "Football"
+            ).length;
+
+
+        document.getElementById(
+            "basketballCount"
+        ).textContent =
+            students.filter(
+                student => student.sport === "Basketball"
+            ).length;
+
+
+        document.getElementById(
+            "badmintonCount"
+        ).textContent =
+            students.filter(
+                student => student.sport === "Badminton"
+            ).length;
+
+
+        // ==========================================
+        // DISPLAY STUDENTS
+        // ==========================================
+
         if (students.length === 0) {
 
             message.textContent =
@@ -197,63 +255,7 @@ async function loadStudents() {
             `${students.length} registration(s) found.`;
 
 
-        studentsContainer.innerHTML = `
-
-            <table border="1" cellpadding="10" cellspacing="0">
-
-                <thead>
-
-                    <tr>
-
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Roll No.</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Sport</th>
-                        <th>Category</th>
-                        <th>Registered At</th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-                    ${students.map(function (student) {
-
-                        return `
-
-                            <tr>
-
-                                <td>${student.id ?? ""}</td>
-
-                                <td>${student.name ?? ""}</td>
-
-                                <td>${student.roll_no ?? ""}</td>
-
-                                <td>${student.email ?? ""}</td>
-
-                                <td>${student.phone ?? ""}</td>
-
-                                <td>${student.sport ?? ""}</td>
-
-                                <td>${student.category ?? ""}</td>
-
-                                <td>${student.registered_at ?? ""}</td>
-
-                            </tr>
-
-                        `;
-
-                    }).join("")}
-
-                </tbody>
-
-            </table>
-
-        `;
+        displayStudents(students);
 
 
     } catch (error) {
@@ -261,7 +263,8 @@ async function loadStudents() {
         console.error(error);
 
         message.textContent =
-            error.message || "Unable to load registrations.";
+            error.message ||
+            "Unable to load registrations.";
 
         message.style.color = "red";
 
@@ -271,25 +274,186 @@ async function loadStudents() {
 
 
 // ==========================================
+// DISPLAY STUDENTS TABLE
+// ==========================================
+
+function displayStudents(students) {
+
+    if (students.length === 0) {
+
+        studentsContainer.innerHTML =
+            "<p>No matching registrations found.</p>";
+
+        return;
+
+    }
+
+
+    studentsContainer.innerHTML = `
+
+        <table border="1" cellpadding="10" cellspacing="0">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Roll No.</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Sport</th>
+                    <th>Category</th>
+                    <th>Registered At</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${students.map(function (student) {
+
+                    return `
+
+                        <tr>
+
+                            <td>${student.id ?? ""}</td>
+
+                            <td>${student.name ?? ""}</td>
+
+                            <td>${student.roll_no ?? ""}</td>
+
+                            <td>${student.email ?? ""}</td>
+
+                            <td>${student.phone ?? ""}</td>
+
+                            <td>${student.sport ?? ""}</td>
+
+                            <td>${student.category ?? ""}</td>
+
+                            <td>${student.registered_at ?? ""}</td>
+
+                        </tr>
+
+                    `;
+
+                }).join("")}
+
+            </tbody>
+
+        </table>
+
+    `;
+
+}
+
+
+// ==========================================
+// SEARCH + SPORT FILTER
+// ==========================================
+
+function filterStudents() {
+
+    const searchText =
+        searchInput.value.toLowerCase().trim();
+
+    const selectedSport =
+        sportFilter.value;
+
+
+    const filteredStudents =
+        allStudents.filter(function (student) {
+
+
+            const name =
+                (student.name || "").toLowerCase();
+
+            const rollNo =
+                (student.roll_no || "").toLowerCase();
+
+            const email =
+                (student.email || "").toLowerCase();
+
+
+            const matchesSearch =
+                name.includes(searchText) ||
+                rollNo.includes(searchText) ||
+                email.includes(searchText);
+
+
+            const matchesSport =
+                selectedSport === "All" ||
+                student.sport === selectedSport;
+
+
+            return (
+                matchesSearch &&
+                matchesSport
+            );
+
+        });
+
+
+    displayStudents(filteredStudents);
+
+
+    message.textContent =
+        `${filteredStudents.length} registration(s) shown.`;
+
+}
+
+
+// ==========================================
+// SEARCH EVENTS
+// ==========================================
+
+searchInput.addEventListener(
+    "input",
+    filterStudents
+);
+
+
+sportFilter.addEventListener(
+    "change",
+    filterStudents
+);
+
+
+// ==========================================
 // LOGOUT
 // ==========================================
 
-logoutButton.addEventListener("click", logout);
+logoutButton.addEventListener(
+    "click",
+    logout
+);
 
 
 function logout() {
 
-    sessionStorage.removeItem("adminToken");
+    sessionStorage.removeItem(
+        "adminToken"
+    );
 
-    loginSection.style.display = "block";
-    dashboardSection.style.display = "none";
+
+    loginSection.style.display =
+        "block";
+
+    dashboardSection.style.display =
+        "none";
+
 
     usernameInput.value = "";
+
     passwordInput.value = "";
 
+
     loginMessage.textContent = "";
+
     message.textContent = "";
 
     studentsContainer.innerHTML = "";
+
+
+    allStudents = [];
 
 }

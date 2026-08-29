@@ -23,3 +23,71 @@ footer{background:#050d1b;color:#b7c1d0;padding:30px 8%;display:flex;justify-con
 @media(max-width:1050px){nav{gap:12px}.sports-grid{grid-template-columns:repeat(2,1fr)}.hero-card{width:280px}.register-card{grid-template-columns:1fr}}
 @media(max-width:760px){.header{padding:0 5%}.menu-btn{display:block}nav{display:none;position:absolute;top:78px;left:0;right:0;background:#fff;padding:18px 6%;flex-direction:column;align-items:stretch;box-shadow:0 15px 30px #0002}nav.open{display:flex}.hero{padding:65px 6%;flex-direction:column;align-items:flex-start}.hero-card{width:100%}.stats{gap:20px;flex-wrap:wrap}.section,.register-section{padding:65px 6%}.section-head{align-items:flex-start;flex-direction:column}.tournament-grid,.gallery{grid-template-columns:1fr}.sports-grid{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}footer{flex-direction:column;align-items:flex-start}}
 @media(max-width:480px){.sports-grid{grid-template-columns:1fr}.hero h2{font-size:48px}.register-card{padding:25px}}
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+}
+
+.stat-card p {
+    margin: 0;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+@media (max-width: 800px) {
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ==========================================
+   ADMIN SEARCH & FILTER
+========================================== */
+
+.admin-controls {
+    display: flex;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.admin-controls input {
+    flex: 1;
+}
+
+.admin-controls select {
+    width: 200px;
+    padding: 13px;
+    border: 1px solid #d8e0eb;
+    border-radius: 9px;
+    background: white;
+    color: #344054;
+    font-weight: 600;
+}
+
+
+@media (max-width: 600px) {
+
+    .admin-controls {
+        flex-direction: column;
+    }
+
+    .admin-controls select {
+        width: 100%;
+    }
+
+}

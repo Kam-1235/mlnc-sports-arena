@@ -10,159 +10,256 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>MLNC Sports — Admin Panel</title>
+    <title>MLNC Sports — Admin Dashboard</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
 </head>
 
 
 <body>
 
-    <header>
+<header>
 
-        <h1>MLNC Sports</h1>
+    <h1>MLNC Sports</h1>
 
-        <p>Admin Panel</p>
+    <p>Admin Dashboard</p>
 
-    </header>
-
-
-    <main>
+</header>
 
 
-        <!-- ============================= -->
-        <!-- LOGIN SECTION -->
-        <!-- ============================= -->
+<main>
 
-        <section
-            id="loginSection"
-            class="admin-dashboard"
-        >
-
-            <h2>Admin Login</h2>
-
-            <p>
-                Login to manage student registrations.
-            </p>
+<section class="admin-dashboard">
 
 
-            <form id="loginForm">
+    <!-- ==========================================
+         LOGIN
+    =========================================== -->
 
-                <div>
+    <div id="loginSection">
 
-                    <label for="username">
-                        Username
-                    </label>
+        <h2>Admin Login</h2>
 
-                    <input
-                        type="text"
-                        id="username"
-                        required
-                        autocomplete="username"
-                    >
-
-                </div>
+        <p>
+            Login to manage student registrations.
+        </p>
 
 
-                <br>
+        <form id="loginForm">
 
-
-                <div>
-
-                    <label for="password">
-                        Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="password"
-                        required
-                        autocomplete="current-password"
-                    >
-
-                </div>
-
-
-                <br>
-
-
-                <button type="submit">
-                    Login
-                </button>
-
-
-                <p id="loginMessage"></p>
-
-            </form>
-
-        </section>
-
-
-
-        <!-- ============================= -->
-        <!-- ADMIN DASHBOARD -->
-        <!-- ============================= -->
-
-        <section
-            id="dashboardSection"
-            class="admin-dashboard"
-            style="display: none;"
-        >
-
-            <div class="admin-header">
-
-                <div>
-
-                    <h2>
-                        Student Registrations
-                    </h2>
-
-                    <p>
-                        Manage students registered
-                        for college sports.
-                    </p>
-
-                </div>
-
-
-                <div>
-
-                    <button id="loadStudents">
-                        Refresh Registrations
-                    </button>
-
-                    <button id="logoutButton">
-                        Logout
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div id="message"></div>
-
-
-            <div
-                class="table-container"
-                id="studentsContainer"
+            <input
+                type="text"
+                id="username"
+                placeholder="Username"
+                required
             >
 
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+            >
+
+
+            <button
+                type="submit"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <p id="loginMessage"></p>
+
+    </div>
+
+
+
+    <!-- ==========================================
+         DASHBOARD
+    =========================================== -->
+
+    <div
+        id="dashboardSection"
+        style="display:none;"
+    >
+
+
+        <div class="admin-header">
+
+            <div>
+
+                <h2>
+                    Student Registrations
+                </h2>
+
                 <p>
-                    Click "Refresh Registrations"
-                    to load student data.
+                    Manage students registered
+                    for college sports.
                 </p>
 
             </div>
 
-        </section>
+
+            <div>
+
+                <button id="loadStudents">
+                    Refresh Registrations
+                </button>
+
+                <button id="logoutButton">
+                    Logout
+                </button>
+
+            </div>
+
+        </div>
 
 
-    </main>
+        <div id="message"></div>
 
 
-    <script src="admin.js"></script>
+
+        <!-- ==========================================
+             STATISTICS
+        =========================================== -->
+
+        <div class="stats-container">
+
+
+            <div class="stat-card">
+
+                <h3>Total Students</h3>
+
+                <p id="totalStudents">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Cricket</h3>
+
+                <p id="cricketCount">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Football</h3>
+
+                <p id="footballCount">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Basketball</h3>
+
+                <p id="basketballCount">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Badminton</h3>
+
+                <p id="badmintonCount">
+                    0
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==========================================
+             SEARCH + FILTER
+        =========================================== -->
+
+        <div class="admin-controls">
+
+
+            <input
+                type="text"
+                id="searchStudent"
+                placeholder="Search by name, roll number or email..."
+            >
+
+
+            <select id="sportFilter">
+
+                <option value="All">
+                    All Sports
+                </option>
+
+                <option value="Cricket">
+                    Cricket
+                </option>
+
+                <option value="Football">
+                    Football
+                </option>
+
+                <option value="Basketball">
+                    Basketball
+                </option>
+
+                <option value="Badminton">
+                    Badminton
+                </option>
+
+            </select>
+
+
+        </div>
+
+
+
+        <!-- ==========================================
+             STUDENT TABLE
+        =========================================== -->
+
+        <div
+            class="table-container"
+            id="studentsContainer"
+        >
+
+            <p>
+                Click "Refresh Registrations"
+                to load student data.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+</main>
+
+
+<script src="admin.js"></script>
 
 </body>
 
