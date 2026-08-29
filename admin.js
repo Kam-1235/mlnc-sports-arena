@@ -45,7 +45,6 @@ loginForm.addEventListener("submit", async function (event) {
     loginMessage.textContent = "Logging in...";
     loginMessage.style.color = "";
 
-
     try {
 
         const formData = new URLSearchParams();
@@ -53,46 +52,36 @@ loginForm.addEventListener("submit", async function (event) {
         formData.append("username", username);
         formData.append("password", password);
 
-
         const response = await fetch(
             `${BACKEND_URL}/admin/login`,
             {
                 method: "POST",
-
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
-
                 body: formData
             }
         );
 
-
         const data = await response.json();
 
-
         if (!response.ok) {
-
             throw new Error(
                 data.detail || "Incorrect username or password"
             );
-
         }
 
-
-        // Save login token
         sessionStorage.setItem(
             "adminToken",
             data.access_token
         );
 
-
         loginMessage.textContent = "Login successful!";
+        loginMessage.style.color = "green";
 
         showDashboard();
 
         loadStudents();
-
 
     } catch (error) {
 
@@ -102,7 +91,6 @@ loginForm.addEventListener("submit", async function (event) {
             error.message || "Login failed.";
 
         loginMessage.style.color = "red";
-
     }
 
 });
@@ -135,21 +123,14 @@ async function loadStudents() {
     const token = sessionStorage.getItem("adminToken");
 
     if (!token) {
-
         logout();
-
         return;
-
     }
 
-
-    message.textContent =
-        "Loading registrations...";
-
+    message.textContent = "Loading registrations...";
     message.style.color = "";
 
     studentsContainer.innerHTML = "";
-
 
     try {
 
@@ -157,14 +138,12 @@ async function loadStudents() {
             `${BACKEND_URL}/students`,
             {
                 method: "GET",
-
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Accept": "application/json"
                 }
             }
         );
-
 
         if (response.status === 401) {
 
@@ -173,70 +152,19 @@ async function loadStudents() {
             throw new Error(
                 "Your login session has expired. Please login again."
             );
-
         }
 
-
         if (!response.ok) {
-
             throw new Error(
                 "Failed to load registrations."
             );
-
         }
-
 
         const students = await response.json();
 
-
-        // Save all students
         allStudents = students;
 
-
-        // ==========================================
-        // UPDATE STATISTICS
-        // ==========================================
-
-        document.getElementById(
-            "totalStudents"
-        ).textContent = students.length;
-
-
-        document.getElementById(
-            "cricketCount"
-        ).textContent =
-            students.filter(
-                student => student.sport === "Cricket"
-            ).length;
-
-
-        document.getElementById(
-            "footballCount"
-        ).textContent =
-            students.filter(
-                student => student.sport === "Football"
-            ).length;
-
-
-        document.getElementById(
-            "basketballCount"
-        ).textContent =
-            students.filter(
-                student => student.sport === "Basketball"
-            ).length;
-
-
-        document.getElementById(
-            "badmintonCount"
-        ).textContent =
-            students.filter(
-                student => student.sport === "Badminton"
-            ).length;
-
-
-        // ==========================================
-        // DISPLAY STUDENTS
-        // ==========================================
+        updateStatistics(students);
 
         if (students.length === 0) {
 
@@ -247,16 +175,12 @@ async function loadStudents() {
                 "<p>No registrations found.</p>";
 
             return;
-
         }
-
 
         message.textContent =
             `${students.length} registration(s) found.`;
 
-
         displayStudents(students);
-
 
     } catch (error) {
 
@@ -267,14 +191,44 @@ async function loadStudents() {
             "Unable to load registrations.";
 
         message.style.color = "red";
-
     }
 
 }
 
 
 // ==========================================
-// DISPLAY STUDENTS TABLE
+// UPDATE STATISTICS
+// ==========================================
+
+function updateStatistics(students) {
+
+    document.getElementById("totalStudents").textContent =
+        students.length;
+
+    document.getElementById("cricketCount").textContent =
+        students.filter(
+            student => student.sport === "Cricket"
+        ).length;
+
+    document.getElementById("footballCount").textContent =
+        students.filter(
+            student => student.sport === "Football"
+        ).length;
+
+    document.getElementById("basketballCount").textContent =
+        students.filter(
+            student => student.sport === "Basketball"
+        ).length;
+
+    document.getElementById("badmintonCount").textContent =
+        students.filter(
+            student => student.sport === "Badminton"
+        ).length;
+}
+
+
+// ==========================================
+// DISPLAY STUDENTS
 // ==========================================
 
 function displayStudents(students) {
@@ -285,9 +239,7 @@ function displayStudents(students) {
             "<p>No matching registrations found.</p>";
 
         return;
-
     }
-
 
     studentsContainer.innerHTML = `
 
@@ -304,6 +256,7 @@ function displayStudents(students) {
                     <th>Sport</th>
                     <th>Category</th>
                     <th>Registered At</th>
+                    <th>Actions</th>
                 </tr>
 
             </thead>
@@ -332,6 +285,22 @@ function displayStudents(students) {
 
                             <td>${student.registered_at ?? ""}</td>
 
+                            <td>
+
+                                <button
+                                    onclick="editStudent(${student.id})"
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    onclick="deleteStudent(${student.id})"
+                                >
+                                    Delete
+                                </button>
+
+                            </td>
+
                         </tr>
 
                     `;
@@ -343,18 +312,258 @@ function displayStudents(students) {
         </table>
 
     `;
+}
+
+
+// ==========================================
+// EDIT STUDENT
+// ==========================================
+
+async function editStudent(studentId) {
+
+    const student =
+        allStudents.find(
+            student => student.id === studentId
+        );
+
+    if (!student) {
+        alert("Student not found.");
+        return;
+    }
+
+
+    const name = prompt(
+        "Student name:",
+        student.name || ""
+    );
+
+    if (name === null) return;
+
+
+    const rollNo = prompt(
+        "Roll number:",
+        student.roll_no || ""
+    );
+
+    if (rollNo === null) return;
+
+
+    const email = prompt(
+        "Email:",
+        student.email || ""
+    );
+
+    if (email === null) return;
+
+
+    const phone = prompt(
+        "Phone:",
+        student.phone || ""
+    );
+
+    if (phone === null) return;
+
+
+    const sport = prompt(
+        "Sport:",
+        student.sport || ""
+    );
+
+    if (sport === null) return;
+
+
+    const category = prompt(
+        "Category:",
+        student.category || ""
+    );
+
+    if (category === null) return;
+
+
+    const updatedStudent = {
+
+        name: name.trim(),
+
+        roll_no: rollNo.trim(),
+
+        email: email.trim(),
+
+        phone: phone.trim(),
+
+        sport: sport.trim(),
+
+        category: category.trim()
+
+    };
+
+
+    const token =
+        sessionStorage.getItem("adminToken");
+
+
+    try {
+
+        const response = await fetch(
+            `${BACKEND_URL}/students/${studentId}`,
+            {
+                method: "PUT",
+
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(updatedStudent)
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (response.status === 401) {
+
+            logout();
+
+            throw new Error(
+                "Your login session has expired."
+            );
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to update student."
+            );
+        }
+
+
+        alert(
+            "Student updated successfully!"
+        );
+
+
+        await loadStudents();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            error.message ||
+            "Failed to update student."
+        );
+
+    }
 
 }
 
 
 // ==========================================
-// SEARCH + SPORT FILTER
+// DELETE STUDENT
+// ==========================================
+
+async function deleteStudent(studentId) {
+
+    const student =
+        allStudents.find(
+            student => student.id === studentId
+        );
+
+
+    if (!student) {
+
+        alert("Student not found.");
+
+        return;
+    }
+
+
+    const confirmed = confirm(
+        `Are you sure you want to delete ${student.name}?`
+    );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const token =
+        sessionStorage.getItem("adminToken");
+
+
+    try {
+
+        const response = await fetch(
+            `${BACKEND_URL}/students/${studentId}`,
+            {
+                method: "DELETE",
+
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (response.status === 401) {
+
+            logout();
+
+            throw new Error(
+                "Your login session has expired."
+            );
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Unable to delete student."
+            );
+        }
+
+
+        alert(
+            "Student deleted successfully!"
+        );
+
+
+        await loadStudents();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            error.message ||
+            "Failed to delete student."
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// SEARCH + FILTER
 // ==========================================
 
 function filterStudents() {
 
     const searchText =
-        searchInput.value.toLowerCase().trim();
+        searchInput.value
+            .toLowerCase()
+            .trim();
 
     const selectedSport =
         sportFilter.value;
@@ -363,15 +572,17 @@ function filterStudents() {
     const filteredStudents =
         allStudents.filter(function (student) {
 
-
             const name =
-                (student.name || "").toLowerCase();
+                (student.name || "")
+                    .toLowerCase();
 
             const rollNo =
-                (student.roll_no || "").toLowerCase();
+                (student.roll_no || "")
+                    .toLowerCase();
 
             const email =
-                (student.email || "").toLowerCase();
+                (student.email || "")
+                    .toLowerCase();
 
 
             const matchesSearch =
@@ -401,10 +612,6 @@ function filterStudents() {
 
 }
 
-
-// ==========================================
-// SEARCH EVENTS
-// ==========================================
 
 searchInput.addEventListener(
     "input",
@@ -452,7 +659,6 @@ function logout() {
     message.textContent = "";
 
     studentsContainer.innerHTML = "";
-
 
     allStudents = [];
 
