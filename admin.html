@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MLNC Sports — Admin</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>MLNC Sports</h1>
+    <p>Admin Panel</p>
+  </header>
+
+  <main>
+
+    <!-- ============================= -->
+    <!-- ADMIN LOGIN -->
+    <!-- ============================= -->
+
+    <section id="loginSection" class="admin-dashboard">
+
+      <div class="admin-header">
+        <div>
+          <h2>Admin Login</h2>
+          <p>Login to manage student registrations.</p>
+        </div>
+      </div>
+
+      <form id="loginForm">
+
+        <label for="username">
+          Username
+        </label>
+
+        <input
+          type="text"
+          id="username"
+          placeholder="Enter admin username"
+          required
+        >
+
+        <label for="password">
+          Password
+        </label>
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter password"
+          required
+        >
+
+        <button type="submit">
+          Login
+        </button>
+
+      </form>
+
+      <div id="loginMessage"></div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- ADMIN DASHBOARD -->
+    <!-- ============================= -->
+
+    <section
+      id="dashboardSection"
+      class="admin-dashboard"
+      style="display: none;"
+    >
+
+      <div class="admin-header">
+
+        <div>
+          <h2>Student Registrations</h2>
+
+          <p>
+            Manage students registered for college sports.
+          </p>
+        </div>
+
+        <div>
+
+          <button id="loadStudents">
+            Refresh Registrations
+          </button>
+
+          <button id="logoutButton">
+            Logout
+          </button>
+
+        </div>
+
+      </div>
+
+      <div id="message"></div>
+
+      <div
+        class="table-container"
+        id="studentsContainer"
+      >
+        <p>
+          Click "Refresh Registrations" to load student data.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script src="admin.js"></script>
+
+</body>
+</html>
