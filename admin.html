@@ -1,122 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>MLNC Sports — Admin</title>
+    <meta charset="UTF-8">
 
-  <link rel="stylesheet" href="style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>MLNC Sports — Admin Panel</title>
+
+    <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-  <header>
-    <h1>MLNC Sports</h1>
-    <p>Admin Panel</p>
-  </header>
+    <header>
 
-  <main>
+        <h1>MLNC Sports</h1>
 
-    <!-- ============================= -->
-    <!-- ADMIN LOGIN -->
-    <!-- ============================= -->
+        <p>Admin Panel</p>
 
-    <section id="loginSection" class="admin-dashboard">
+    </header>
 
-      <div class="admin-header">
-        <div>
-          <h2>Admin Login</h2>
-          <p>Login to manage student registrations.</p>
-        </div>
-      </div>
 
-      <form id="loginForm">
+    <main>
 
-        <label for="username">
-          Username
-        </label>
 
-        <input
-          type="text"
-          id="username"
-          placeholder="Enter admin username"
-          required
+        <!-- ============================= -->
+        <!-- LOGIN SECTION -->
+        <!-- ============================= -->
+
+        <section
+            id="loginSection"
+            class="admin-dashboard"
         >
 
-        <label for="password">
-          Password
-        </label>
+            <h2>Admin Login</h2>
 
-        <input
-          type="password"
-          id="password"
-          placeholder="Enter password"
-          required
+            <p>
+                Login to manage student registrations.
+            </p>
+
+
+            <form id="loginForm">
+
+                <div>
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        required
+                        autocomplete="username"
+                    >
+
+                </div>
+
+
+                <br>
+
+
+                <div>
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        required
+                        autocomplete="current-password"
+                    >
+
+                </div>
+
+
+                <br>
+
+
+                <button type="submit">
+                    Login
+                </button>
+
+
+                <p id="loginMessage"></p>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- ============================= -->
+        <!-- ADMIN DASHBOARD -->
+        <!-- ============================= -->
+
+        <section
+            id="dashboardSection"
+            class="admin-dashboard"
+            style="display: none;"
         >
 
-        <button type="submit">
-          Login
-        </button>
+            <div class="admin-header">
 
-      </form>
+                <div>
 
-      <div id="loginMessage"></div>
+                    <h2>
+                        Student Registrations
+                    </h2>
 
-    </section>
+                    <p>
+                        Manage students registered
+                        for college sports.
+                    </p>
 
-
-    <!-- ============================= -->
-    <!-- ADMIN DASHBOARD -->
-    <!-- ============================= -->
-
-    <section
-      id="dashboardSection"
-      class="admin-dashboard"
-      style="display: none;"
-    >
-
-      <div class="admin-header">
-
-        <div>
-          <h2>Student Registrations</h2>
-
-          <p>
-            Manage students registered for college sports.
-          </p>
-        </div>
-
-        <div>
-
-          <button id="loadStudents">
-            Refresh Registrations
-          </button>
-
-          <button id="logoutButton">
-            Logout
-          </button>
-
-        </div>
-
-      </div>
-
-      <div id="message"></div>
-
-      <div
-        class="table-container"
-        id="studentsContainer"
-      >
-        <p>
-          Click "Refresh Registrations" to load student data.
-        </p>
-      </div>
-
-    </section>
-
-  </main>
+                </div>
 
 
-  <script src="admin.js"></script>
+                <div>
+
+                    <button id="loadStudents">
+                        Refresh Registrations
+                    </button>
+
+                    <button id="logoutButton">
+                        Logout
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div id="message"></div>
+
+
+            <div
+                class="table-container"
+                id="studentsContainer"
+            >
+
+                <p>
+                    Click "Refresh Registrations"
+                    to load student data.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <script src="admin.js"></script>
 
 </body>
+
 </html>
